@@ -1,21 +1,35 @@
 # Yapı Hırdavat kurumsal site
 
-yapihirdavat.net için sıfırdan hazırlanan statik site. Derleme adımı yok; dosyaları olduğu gibi herhangi bir hosting'e yükleyebilir ya da `index.html` dosyasını tarayıcıda açabilirsiniz.
+www.yapihirdavat.net için sıfırdan hazırlanan statik site. Derleme adımı yok; depo kökü olduğu gibi GitHub Pages'te ("Deploy from a branch", `main`, `/ (root)`) yayınlanır.
+
+İç yollar göreli ve her sayfanın klasör derinliğine göre yazılı (kökteki sayfada `assets/site.css`, `hakkimizda/index.html`'de `../assets/site.css`, iki seviye altta `../../`). Böylece site hem alan adı kökünde hem de `https://slowengg.github.io/yapihirdavat/` önizlemesinde çalışır; yeni sayfa eklerken aynı kurala uyun. `404.html` her adreste sunulduğu için yollarını `<base>`'e göre çözer (github.io'da `/yapihirdavat/`, alan adında `/`).
+
+Klasör adresleri (`/hakkimizda/`) çalışsın diye dosyayı doğrudan açmak yerine yerel sunucuyla bakın: `python3 -m http.server 8000` → http://localhost:8000/
+
+**Alan adı geçişi:** Depoda henüz `CNAME` yok; olsaydı github.io önizlemesi alan adına (DNS değişene kadar eski siteye) yönlenirdi. Geçiş günü Settings → Pages → Custom domain alanına `www.yapihirdavat.net` yazılınca GitHub dosyayı kendisi ekler.
 
 ## Yapı
 
-| Dosya | Sayfa |
+Sayfalar eski WordPress sitesinin adreslerinde durur (her biri bir klasörün `index.html`'i), böylece Google'daki eski kayıtlar çalışmaya devam eder.
+
+| Dosya | Adres |
 |---|---|
-| `index.html` | Ana sayfa |
-| `hakkimizda.html` | Hakkımızda |
-| `urunler.html` | Ürünlerimiz + Katalog (`#katalog`) |
-| `haberler.html` | Haber & Duyuru |
-| `iletisim.html` | İletişim ve teklif formu |
+| `index.html` | `/` Ana sayfa (LocalBusiness JSON-LD burada) |
+| `hakkimizda/index.html` | `/hakkimizda/` |
+| `urunlerimiz/index.html` | `/urunlerimiz/` Ürünlerimiz + Katalog (`#katalog`) |
+| `haberduyuru/index.html` | `/haberduyuru/` Haber & Duyuru listesi |
+| `iletisim/index.html` | `/iletisim/` İletişim ve teklif formu |
+| `e-ticaret/index.html` | `/e-ticaret/` Online alışverişin ysb.com.tr'de olduğunu söyleyen kısa sayfa |
+| `22-uluslararasi-marble-…/index.html`, `win-eurasia-metalworking-fuarindayiz/index.html` | İki fuar haberi (metinler eski siteden) |
+| `404.html` | Bulunamayan adresler için hata sayfası |
+| `ewm-kaynak-…/`, `author/yapihiradavat/`, `category/genel/`, `2015/`, `2015/08/`, `2016/`, `2016/02/`, `2016/03/` | Yönlendirme sayfaları → `/haberduyuru/` (noindex, sitemap'te yok) |
+| `download/Katalog2016.pdf` | Eski adresindeki katalog; "PDF İndir" düğmeleri buna gider |
+| `wp-content/uploads/…` | Eski sitenin görselleri, eski adresleriyle (EWM görselleri hariç) |
+| `sitemap.xml`, `robots.txt`, `.nojekyll` | SEO ve GitHub Pages dosyaları (canonical ve sitemap adresleri `https://www.yapihirdavat.net` ile başlar) |
 | `assets/site.css` | Ortak temel stiller ve başlık ızgarası |
 | `assets/` | Logo, fotoğraf ve bayrak görselleri |
 
-Üst şerit, menü ve footer her sayfada aynı HTML olarak tekrarlanıyor; birinde yapılan değişikliği beş dosyaya da uygulamak gerekir. Stillerin çoğu öğelerin üzerinde satır içi (`style="..."`) duruyor.
-
+Üst şerit, menü ve footer her sayfada aynı HTML olarak tekrarlanıyor; birinde yapılan değişikliği dokuz dosyaya da (yönlendirme sayfaları hariç bütün sayfalar ve `404.html`) uygulamak gerekir. Stillerin çoğu öğelerin üzerinde satır içi (`style="..."`) duruyor. Yeni sayfa eklenirse `sitemap.xml`'e ve sayfanın `<head>`'ine `<link rel="canonical">` eklenmeli.
 ## Tasarım değerleri (ysb.com.tr temasından)
 
 - Ana mavi `#0360A0`, menü mavisi `#0278B8`, lacivert `#0A2A47`
@@ -27,7 +41,7 @@ yapihirdavat.net için sıfırdan hazırlanan statik site. Derleme adımı yok; 
 
 ## Hareket
 
-- **Kaydırınca belirme:** `class="cik"` verilen öğeler ekrana girince aşağıdan süzülerek gelir (`assets/hareket.js`, beş sayfada da yüklü). Yeni bir öğeye eklemek için `cik` sınıfı vermek yeter. Fareyle üzerine gelince hareket eden düğmelere (`.dugme`) değil, içinde bulundukları kutuya verilmeli.
+- **Kaydırınca belirme:** `class="cik"` verilen öğeler ekrana girince aşağıdan süzülerek gelir (`assets/hareket.js`, bütün sayfalarda yüklü). Yeni bir öğeye eklemek için `cik` sınıfı vermek yeter. Fareyle üzerine gelince hareket eden düğmelere (`.dugme`) değil, içinde bulundukları kutuya verilmeli.
 - **Sayfa geçişleri:** `assets/site.css` sonundaki View Transitions kuralları. Üst şerit ve menü yerinde kalır, içerik solarak geçer. Chrome, Edge ve Safari'de çalışır; desteklemeyen tarayıcıda normal geçiş olur. Dosyayı doğrudan açınca (`file://`) çalışmaz, sunucuya yüklenince çalışır.
 - **Hareketli ikonlar:** Ana sayfa, Ürünler ve Hakkımızda'daki ikon kutuları (`.ikon`, `.faaliyet-ikon`, `.iletisim-ikon`) her biri kendi hareketini birkaç saniyede bir oynatır; gruptakiler sırayla, dalga gibi hareket eder. Hareketi kutudaki `ik-*` sınıfı seçer (`ik-makas`, `ik-forklift`, `ik-alev`…), sıradaki yeri `style="--g:…"` gecikmesi verir; kurallar `assets/site.css` içindeki "Hareketli ikonlar" bölümünde, hız `--ik-sure` ile ayarlanır. Ekran dışındaki bölümlerin ikonları durur (`assets/hareket.js`).
 - Ziyaretçinin cihazında "hareketi azalt" açıksa bunların hepsi devre dışı kalır.
@@ -40,15 +54,15 @@ yapihirdavat.net için sıfırdan hazırlanan statik site. Derleme adımı yok; 
 
 ## Eksikler
 
-- **PDF katalog:** "PDF İndir" düğmeleri `#katalog` adresine gidiyor; güncel katalog dosyası eklenip bağlanmalı.
+- **PDF katalog:** "PDF İndir" düğmeleri eski siteden alınan 2016 tarihli kataloğa (`/download/Katalog2016.pdf`) gidiyor; güncel katalog gelince eklenip bağlanmalı (eski dosya, eski adresi çalışsın diye kalmalı).
 - **Marka logoları:** Markalar yazılı kutucuklarla gösteriliyor. Logo dosyaları tedarikçilerden alınıp eklenebilir.
-- **Teklif formu:** Sunucuya bir şey göndermiyor; girilenleri WhatsApp mesajı olarak hazırlıyor (`iletisim.html` sonundaki betik).
+- **Teklif formu:** Sunucuya bir şey göndermiyor; girilenleri WhatsApp mesajı olarak hazırlıyor (`iletisim/index.html` sonundaki betik).
 - **Firma unvanı:** Eski sitenin Hakkımızda sayfasında "Abdullah Asım Coşkun", ana sayfasında "Tahir Coşkun" yazıyordu. Burada Tahir Coşkun kullanıldı; doğrulanmalı.
 - **Rakamlar ve sevkiyat düzeni:** "10.000+ ürün", "10 il", "81 il" ve Hakkımızda'daki sevkiyat kartları firma tarafından doğrulanmalı.
-- **Haberler:** İki haber de 2016 tarihli. "Devamını oku" bağlantıları `haberler.html` içindeki ilgili habere gidiyor (`#marble`, `#win-eurasia`); ayrı haber sayfası yok.
+- **Haberler:** İki haber de 2016 tarihli. Ana sayfadaki "Devamını oku" bağlantıları ve Haber & Duyuru listesindeki başlıklar haberlerin kendi sayfalarına (eski adresleri) gidiyor.
 
 ## Eski siteden kaldırılanlar
 
-- EWM slaytı, EWM markası, EWM e-ticaret haberi ve ewmkaynak.com bağlantıları (WIN EURASIA haberindeki EWM standı fotoğrafı firmanın onayıyla duruyor)
+- EWM slaytı, EWM markası, EWM e-ticaret haberi ve ewmkaynak.com bağlantıları (WIN EURASIA haberindeki EWM standı fotoğrafı `ist-fuar1.jpg` firmanın onayıyla duruyor; haberin diğer dört EWM standı fotoğrafı yayınlanmadı). EWM haberinin eski adresi yalnızca `/haberduyuru/`'ya yönlendiriyor.
 - Footer'daki "Powered by Arai Teknoloji" ibaresi
 - Hepsiburada, Trendyol ve N11 mağaza bağlantıları (yalnızca ysb.com.tr bağlantısı kaldı)

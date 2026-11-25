@@ -11,6 +11,7 @@ a:focus-visible{outline:3px solid #F2A900;outline-offset:2px}
 .izgara{position:relative}.izgara>*{position:relative}
 .izgara::before{content:"";position:absolute;top:0;left:0;right:0;height:620px;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(3,96,160,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(3,96,160,.15) 1px,transparent 1px),linear-gradient(rgba(3,96,160,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(3,96,160,.07) 1px,transparent 1px);background-size:120px 120px,120px 120px,24px 24px,24px 24px;background-position:center top;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.8) 30%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.8) 30%,transparent 100%)}
 .izgara+section{position:relative;z-index:1}
+.izgara~footer{position:relative;z-index:1}
 .izgara-orta::before{-webkit-mask-image:radial-gradient(ellipse 85% 100% at 50% 25%,#000 0%,transparent 82%);mask-image:radial-gradient(ellipse 85% 100% at 50% 25%,#000 0%,transparent 82%)}
 .marka-serit{position:relative;overflow:hidden;padding:28px 0;background:#ffffff;border:1px solid #E9EDF1;border-radius:16px}
 .marka-serit::before,.marka-serit::after{content:"";position:absolute;top:0;bottom:0;z-index:1;width:clamp(28px,7%,80px);pointer-events:none}
